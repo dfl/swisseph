@@ -2,9 +2,8 @@
 
 require 'swisseph/swisseph'
 
-# Compatibility alias
-Swe4r = Swisseph unless defined?(Swe4r)
-
+# Shorthand alias
+Sweph = Swisseph unless defined?(Sweph)
 module Swisseph
   class << self
     # Automatically create shorthand aliases without the 'swe_' prefix
