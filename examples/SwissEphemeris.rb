@@ -1,44 +1,44 @@
-require 'swe4r'
+require 'swisseph'
 require 'ostruct'
 require 'victor'
 
 class SwissEphemeris
   BODIES = {
-    SO: { id: Swe4r::SE_SUN, name: 'sun', symbol: '☉' },
-    MO: { id: Swe4r::SE_MOON, name: 'moon', symbol: '☽' },
-    ME: { id: Swe4r::SE_MERCURY, name: 'mercury', symbol: '☿' },
-    VE: { id: Swe4r::SE_VENUS, name: 'venus', symbol: '♀' },
-    MA: { id: Swe4r::SE_MARS, name: 'mars', symbol: '♂' },
-    JU: { id: Swe4r::SE_JUPITER, name: 'jupiter', symbol: '♃' },
-    SA: { id: Swe4r::SE_SATURN, name: 'saturn', symbol: '♄' },
-    UR: { id: Swe4r::SE_URANUS, name: 'uranus', symbol: '♅' },
-    NE: { id: Swe4r::SE_NEPTUNE, name: 'neptune', symbol: '♆' },
-    PL: { id: Swe4r::SE_PLUTO, name: 'pluto', symbol: '♇' }, # '⛢'
-    MN: { id: Swe4r::SE_MEAN_NODE, name: 'n. node', symbol: '☊' },
-    TN: Swe4r::SE_TRUE_NODE,
-    LI: Swe4r::SE_MEAN_APOG,
-    TL: Swe4r::SE_OSCU_APOG,
-    EA: Swe4r::SE_EARTH,
-    CH: { id: Swe4r::SE_CHIRON, name: 'chiron', symbol: '⚷' },
-    CE: Swe4r::SE_CERES,
-    PA: Swe4r::SE_PALLAS,
-    PH: Swe4r::SE_PHOLUS,
-    JN: Swe4r::SE_JUNO,
-    VS: Swe4r::SE_VESTA,
-    CU: Swe4r::SE_CUPIDO,
-    HA: Swe4r::SE_HADES,
-    ZE: Swe4r::SE_ZEUS,
-    KR: Swe4r::SE_KRONOS,
-    AP: Swe4r::SE_APOLLON,
-    AD: Swe4r::SE_ADMETOS,
-    VU: Swe4r::SE_VULKANUS,
-    PO: Swe4r::SE_POSEIDON
+    SO: { id: Sweph::SE_SUN, name: 'sun', symbol: '☉' },
+    MO: { id: Sweph::SE_MOON, name: 'moon', symbol: '☽' },
+    ME: { id: Sweph::SE_MERCURY, name: 'mercury', symbol: '☿' },
+    VE: { id: Sweph::SE_VENUS, name: 'venus', symbol: '♀' },
+    MA: { id: Sweph::SE_MARS, name: 'mars', symbol: '♂' },
+    JU: { id: Sweph::SE_JUPITER, name: 'jupiter', symbol: '♃' },
+    SA: { id: Sweph::SE_SATURN, name: 'saturn', symbol: '♄' },
+    UR: { id: Sweph::SE_URANUS, name: 'uranus', symbol: '♅' },
+    NE: { id: Sweph::SE_NEPTUNE, name: 'neptune', symbol: '♆' },
+    PL: { id: Sweph::SE_PLUTO, name: 'pluto', symbol: '♇' }, # '⛢'
+    MN: { id: Sweph::SE_MEAN_NODE, name: 'n. node', symbol: '☊' },
+    TN: Sweph::SE_TRUE_NODE,
+    LI: Sweph::SE_MEAN_APOG,
+    TL: Sweph::SE_OSCU_APOG,
+    EA: Sweph::SE_EARTH,
+    CH: { id: Sweph::SE_CHIRON, name: 'chiron', symbol: '⚷' },
+    CE: Sweph::SE_CERES,
+    PA: Sweph::SE_PALLAS,
+    PH: Sweph::SE_PHOLUS,
+    JN: Sweph::SE_JUNO,
+    VS: Sweph::SE_VESTA,
+    CU: Sweph::SE_CUPIDO,
+    HA: Sweph::SE_HADES,
+    ZE: Sweph::SE_ZEUS,
+    KR: Sweph::SE_KRONOS,
+    AP: Sweph::SE_APOLLON,
+    AD: Sweph::SE_ADMETOS,
+    VU: Sweph::SE_VULKANUS,
+    PO: Sweph::SE_POSEIDON
   }.freeze
 
   SIGNS = %w[Ari Tau Gem Can Leo Vir Lib Sco Sag Cap Aqu Pis].freeze
 
   def path=(path)
-    Swe4r.swe_set_ephe_path(path.to_s)
+    Sweph.swe_set_ephe_path(path.to_s)
   end
 
   def jpl_file=(path)
@@ -52,39 +52,39 @@ class SwissEphemeris
     def initialize(params = {})
       # https://www.astro.com/swisseph/swephprg.htm
       params[:use_moshier_ephemeris] = true unless params[:moshier_ephemeris] == false
-      @flags = Swe4r::SEFLG_SPEED
+      @flags = Sweph::SEFLG_SPEED
       # no light time correction - return true positions, not apparent
-      @flags |= Swe4r::SEFLG_TRUEPOS if params[:trues]
-      @flags |= Swe4r::SEFLG_SIDEREAL if params[:sidereal]
-      @flags |= Swe4r::SEFLG_TOPOCTR if params[:topocentric]
-      @flags |= Swe4r::SEFLG_HELCTR if params[:heliocentric]
-      @flags |= Swe4r::SEFLG_MOSEPH if params[:use_moshier_ephemeris]
-      @flags |= Swe4r::SEFLG_JPLEPH if params[:use_jpl_ephemeris]
-      @flags |= Swe4r::SEFLG_SWIEPH if params[:use_swiss_ephemeris]
+      @flags |= Sweph::SEFLG_TRUEPOS if params[:trues]
+      @flags |= Sweph::SEFLG_SIDEREAL if params[:sidereal]
+      @flags |= Sweph::SEFLG_TOPOCTR if params[:topocentric]
+      @flags |= Sweph::SEFLG_HELCTR if params[:heliocentric]
+      @flags |= Sweph::SEFLG_MOSEPH if params[:use_moshier_ephemeris]
+      @flags |= Sweph::SEFLG_JPLEPH if params[:use_jpl_ephemeris]
+      @flags |= Sweph::SEFLG_SWIEPH if params[:use_swiss_ephemeris]
       # right ascension and declination instead of lat/lon
-      @flags |= Swe4r::SEFLG_EQUATORIAL if params[:equatorial]
+      @flags |= Sweph::SEFLG_EQUATORIAL if params[:equatorial]
       self
     end
 
     def date=(time)
-      @jd = Swe4r.swe_julday(time.year, time.month, time.day, time.hour + time.min / 60.0)
+      @jd = Sweph.swe_julday(time.year, time.month, time.day, time.hour + time.min / 60.0)
     end
 
     def set_topo(latitude, longitude, altitude = 0)
       @latitude = latitude
       @longitude = longitude
-      Swe4r.swe_set_topo(longitude, latitude, altitude)
+      Sweph.swe_set_topo(longitude, latitude, altitude)
     end
 
     def position(object)
       obj = SwissEphemeris::BODIES[object]
-      values = Swe4r.swe_calc_ut(jd, obj[:id], flags)
+      values = Sweph.swe_calc_ut(jd, obj[:id], flags)
       # [longitude, latitude, distance, speed in long., speed in lat., and speed in dist.]
       Body.new(values[0], values[1], values[2], values[3], obj[:name], obj[:symbol])
     end
 
     def houses(calc_method = 'K')
-      output = Swe4r.swe_houses(jd, latitude, longitude, calc_method)
+      output = Sweph.swe_houses(jd, latitude, longitude, calc_method)
       @cusps = output[1..12]
       ascmc = output[13..-1]
       @asc, @mc, @armc, @vertex = @ascm[0..3]

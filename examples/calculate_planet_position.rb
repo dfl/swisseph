@@ -1,4 +1,4 @@
-require 'swe4r'
+require 'swisseph'
 
 #############################
 # CONFIGURATION
@@ -20,21 +20,21 @@ altitude = 1468
 #############################
 
 # Get the Julian day number
-jd = Swe4r::swe_julday(year, month, day, hour)
+jd = Sweph::swe_julday(year, month, day, hour)
 
 # Set the geographic location for topocentric positions
-Swe4r::swe_set_topo(longitude, latitidue, altitude)
+Sweph::swe_set_topo(longitude, latitidue, altitude)
 
 # Set the sidereal mode for sidereal positions
-Swe4r::swe_set_sid_mode(Swe4r::SE_SIDM_LAHIRI, 0, 0)
+Sweph::swe_set_sid_mode(Sweph::SE_SIDM_LAHIRI, 0, 0)
 
 # Get the ayanamsha (the distance of the tropical vernal point from the sidereal zero point of the zodiac)
-ayanamsha = Swe4r::swe_get_ayanamsa_ut(jd)
+ayanamsha = Sweph::swe_get_ayanamsa_ut(jd)
 
 # Calculate the position of the Sun
 # Use the Moshier Ephemeris (does not require ephemeris files)
 # Get high precision speed and sidereal/topocentric positions
-body = Swe4r::swe_calc_ut(jd, Swe4r::SE_SUN, Swe4r::SEFLG_MOSEPH|Swe4r::SEFLG_SPEED|Swe4r::SEFLG_TOPOCTR|Swe4r::SEFLG_SIDEREAL)
+body = Sweph::swe_calc_ut(jd, Sweph::SE_SUN, Sweph::SEFLG_MOSEPH|Sweph::SEFLG_SPEED|Sweph::SEFLG_TOPOCTR|Sweph::SEFLG_SIDEREAL)
 
 # Print the results
 puts "Longitude: #{body[0]}"

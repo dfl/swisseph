@@ -4,7 +4,38 @@
 
 [![Gem Version](https://badge.fury.io/rb/swisseph.svg)](https://badge.fury.io/rb/swisseph)
 
-Native Ruby bindings for the [Swiss Ephemeris](http://www.astro.com/swisseph/) library, providing high-precision astronomical calculations for astrological applications.
+Native Ruby bindings for the [Swiss Ephemeris](http://www.astro.com/swisseph/) library (v2.10.3a), providing high-precision astronomical calculations for astrological applications.
+
+## History & Motivation
+
+This gem is a modernized fork of the original [aakara/swe4r](https://github.com/aakara/swe4r). Since the original project has been abandoned, this version was created to:
+
+-   Ensure compatibility with modern Ruby versions.
+-   Automate the build process using CMake.
+-   Provide more idiomatic Ruby aliases and convenience methods.
+-   Maintain active support for the latest Swiss Ephemeris releases.
+
+## Convenience Features
+
+### Shorthand Methods
+All `swe_*` methods are also available without the `swe_` prefix:
+
+```ruby
+# Traditional way:
+Swisseph.swe_julday(2024, 1, 1, 12.0)
+
+# Modern shorthand:
+Swisseph.julday(2024, 1, 1, 12.0)
+```
+
+### Module Aliases
+For even shorter code, you can use the `Sweph` alias:
+
+```ruby
+Sweph.julday(2024, 1, 1, 12.0)
+```
+
+---
 
 ## Installation
 
@@ -20,271 +51,94 @@ gem 'swisseph'
 
 ### Build Requirements
 
-This gem requires **CMake 3.14 or later** to build from source. CMake is used to automatically download the Swiss Ephemeris library (v2.10.3a) from GitHub during installation.
+This gem requires **CMake 3.14 or later** to build from source. CMake is used to automatically download the Swiss Ephemeris library from GitHub during installation.
 
 **Installing CMake:**
-
 - **macOS:** `brew install cmake`
 - **Ubuntu/Debian:** `sudo apt-get install cmake`
-- **Windows:** Download from [cmake.org/download](https://cmake.org/download/)
-- **Other platforms:** See [CMake installation guide](https://cmake.org/install/)
+- **Windows:** Download from [cmake.org](https://cmake.org/download/)
 
-The gem will automatically fetch Swiss Ephemeris sources from the [official GitHub repository](https://github.com/aloistr/swisseph) during installation. No manual download is required.
+---
 
-### Building from Source
-
-If you're building the gem from source or developing locally:
-
-```bash
-# Install CMake (if not already installed)
-brew install cmake  # macOS
-# or
-sudo apt-get install cmake  # Ubuntu/Debian
-
-# Build and install
-rake install
-```
-
-The build process will:
-1. Fetch Swiss Ephemeris sources from GitHub using CMake
-2. Compile the native extension with mkmf
-3. Install the gem locally
-
-## Features
-
-- High-precision planetary positions (Sun, Moon, planets, asteroids)
-- House cusp calculations (Placidus, Koch, Equal, and many more)
-- Fixed star positions and magnitudes
-- Solar and lunar eclipse calculations
-- Heliacal rising/setting times
-- Sidereal and tropical zodiac support
-- Topocentric positions
-- Both Universal Time (UT) and Ephemeris Time (ET) variants
-
-## Supported Functions
-
-### Planetary Calculations
-
-| Function | Description |
-|----------|-------------|
-| `swe_calc_ut` | Calculate planetary positions (Universal Time) |
-| `swe_calc` | Calculate planetary positions (Ephemeris Time) |
-| `swe_calc_pctr` | Planet-centric calculations |
-| `swe_get_orbital_elements` | Get orbital elements for a body |
-| `swe_nod_aps_ut` / `swe_nod_aps` | Planetary nodes and apsides |
-| `swe_pheno_ut` | Planetary phenomena (phase, elongation, etc.) |
-
-### Fixed Stars
-
-| Function | Description |
-|----------|-------------|
-| `swe_fixstar_ut` / `swe_fixstar` | Fixed star positions |
-| `swe_fixstar2_ut` / `swe_fixstar2` | Fixed star positions (faster) |
-| `swe_fixstar_mag` / `swe_fixstar2_mag` | Fixed star magnitudes |
-
-### House Systems
-
-| Function | Description |
-|----------|-------------|
-| `swe_houses` | Calculate house cusps and angles |
-| `swe_houses_ex` | Extended house calculation |
-| `swe_houses_ex2` | Extended house calculation with speeds |
-| `swe_houses_armc` | Houses from ARMC |
-| `swe_house_pos` | House position of a body |
-| `swe_house_name` | Get house system name |
-
-### Eclipses
-
-| Function | Description |
-|----------|-------------|
-| `swe_sol_eclipse_when_glob` | Find next solar eclipse globally |
-| `swe_sol_eclipse_when_loc` | Find next solar eclipse at location |
-| `swe_sol_eclipse_how` | Solar eclipse attributes |
-| `swe_sol_eclipse_where` | Geographic location of eclipse |
-| `swe_lun_eclipse_when` | Find next lunar eclipse |
-| `swe_lun_eclipse_when_loc` | Find next lunar eclipse at location |
-| `swe_lun_eclipse_how` | Lunar eclipse attributes |
-
-### Crossings and Transits
-
-| Function | Description |
-|----------|-------------|
-| `swe_solcross_ut` / `swe_solcross` | Sun crossing a longitude |
-| `swe_mooncross_ut` / `swe_mooncross` | Moon crossing a longitude |
-| `swe_mooncross_node_ut` / `swe_mooncross_node` | Moon crossing its node |
-| `swe_helio_cross_ut` / `swe_helio_cross` | Heliocentric crossing |
-| `swe_rise_trans` | Rising, setting, and transits |
-| `swe_rise_trans_true_hor` | Rise/set with true horizon |
-
-### Coordinate Systems
-
-| Function | Description |
-|----------|-------------|
-| `swe_azalt` | Convert to horizontal coordinates |
-| `swe_azalt_rev` | Convert from horizontal coordinates |
-| `swe_cotrans` | Coordinate transformation |
-| `swe_cotrans_sp` | Coordinate transformation with speeds |
-| `swe_refrac` | Atmospheric refraction |
-
-### Sidereal & Ayanamsa
-
-| Function | Description |
-|----------|-------------|
-| `swe_set_sid_mode` | Set sidereal mode |
-| `swe_get_ayanamsa_ut` / `swe_get_ayanamsa` | Get ayanamsa value |
-| `swe_get_ayanamsa_ex_ut` / `swe_get_ayanamsa_ex` | Extended ayanamsa |
-| `swe_get_ayanamsa_name` | Get ayanamsa name |
-
-### Time Functions
-
-| Function | Description |
-|----------|-------------|
-| `swe_julday` | Convert date to Julian day |
-| `swe_revjul` | Convert Julian day to date |
-| `swe_utc_to_jd` | UTC to Julian day |
-| `swe_jdut1_to_utc` | Julian day to UTC |
-| `swe_deltat` / `swe_deltat_ex` | Delta T (ET - UT) |
-| `swe_sidtime` / `swe_sidtime0` | Sidereal time |
-| `swe_time_equ` | Equation of time |
-| `swe_day_of_week` | Day of week |
-| `swe_lmt_to_lat` / `swe_lat_to_lmt` | Local mean time conversion |
-
-### Special Functions
-
-| Function | Description |
-|----------|-------------|
-| `swe_gauquelin_sector` | Gauquelin sector position |
-| `swe_heliacal_ut` | Heliacal rising/setting |
-| `swe_vis_limit_mag` | Visibility limit magnitude |
-
-### Utility Functions
-
-| Function | Description |
-|----------|-------------|
-| `swe_set_ephe_path` | Set ephemeris file path |
-| `swe_set_jpl_file` | Set JPL ephemeris file |
-| `swe_set_topo` | Set topocentric location |
-| `swe_close` | Close Swiss Ephemeris |
-| `swe_version` | Get library version |
-| `swe_get_planet_name` | Get planet name |
-| `swe_degnorm` / `swe_radnorm` | Normalize degrees/radians |
-| `swe_split_deg` | Split degrees to components |
-
-## Examples
+## Quick Examples
 
 ### Calculate Planetary Position
-
 ```ruby
 require 'swisseph'
 
 # Get Julian day for May 14, 2012 at 10:15
-jd = Swisseph.swe_julday(2012, 5, 14, 10.25)
+jd = Sweph.julday(2012, 5, 14, 10.25)
 
 # Calculate Sun position using Moshier ephemeris
-sun = Swisseph.swe_calc_ut(jd, Swisseph::SE_SUN, Swisseph::SEFLG_MOSEPH | Swisseph::SEFLG_SPEED)
+sun = Sweph.calc_ut(jd, Sweph::SE_SUN, Sweph::SEFLG_MOSEPH | Sweph::SEFLG_SPEED)
 
 puts "Sun longitude: #{sun[0]}°"
 puts "Sun latitude: #{sun[1]}°"
-puts "Distance (AU): #{sun[2]}"
-puts "Speed (deg/day): #{sun[3]}"
 ```
 
 ### Calculate House Cusps
-
 ```ruby
 require 'swisseph'
 
-jd = Swisseph.swe_julday(2012, 5, 14, 10.25)
-lat = 45.45
-lon = -112.183333
+jd = Sweph.julday(2012, 5, 14, 10.25)
+lat, lon = 45.45, -112.18
 
 # Calculate Placidus houses
-cusps, angles = Swisseph.swe_houses(jd, lat, lon, 'P')
+cusps, angles = Sweph.houses(jd, lat, lon, 'P')
 
 puts "Ascendant: #{angles[0]}°"
-puts "MC: #{angles[1]}°"
-(1..12).each { |i| puts "House #{i}: #{cusps[i]}°" }
+puts "House 1: #{cusps[1]}°"
 ```
 
-### Sidereal Calculations
+---
 
-```ruby
-require 'swisseph'
+## Supported Functions
 
-jd = Swisseph.swe_julday(2012, 5, 14, 10.25)
+The gem provides full coverage of the Swiss Ephemeris API. All functions are available in both `swe_prefix` and `shorthand` forms.
 
-# Set Lahiri ayanamsa
-Swisseph.swe_set_sid_mode(Swisseph::SE_SIDM_LAHIRI, 0, 0)
+| Category | Key Functions |
+| :--- | :--- |
+| **Planets** | `calc_ut`, `calc`, `get_orbital_elements`, `pheno_ut` |
+| **Fixed Stars** | `fixstar_ut`, `fixstar2_ut`, `fixstar_mag` |
+| **Houses** | `houses`, `houses_ex`, `house_pos`, `house_name` |
+| **Eclipses** | `sol_eclipse_when_glob`, `lun_eclipse_when`, `sol_eclipse_where` |
+| **Transits** | `solcross_ut`, `mooncross_ut`, `rise_trans` |
+| **Time** | `julday`, `revjul`, `utc_to_jd`, `deltat`, `sidtime` |
+| **Utilities** | `set_ephe_path`, `set_topo`, `get_planet_name`, `split_deg` |
 
-# Get ayanamsa
-ayanamsa = Swisseph.swe_get_ayanamsa_ut(jd)
-puts "Ayanamsa: #{ayanamsa}°"
-
-# Calculate sidereal position
-sun = Swisseph.swe_calc_ut(jd, Swisseph::SE_SUN, Swisseph::SEFLG_MOSEPH | Swisseph::SEFLG_SIDEREAL)
-puts "Sun (sidereal): #{sun[0]}°"
-```
-
-### Find Next Solar Eclipse
-
-```ruby
-require 'swisseph'
-
-jd = Swisseph.swe_julday(2024, 1, 1, 0.0)
-
-# Find next solar eclipse globally
-result = Swisseph.swe_sol_eclipse_when_glob(jd, Swisseph::SEFLG_MOSEPH, 0, 0)
-
-eclipse_type = result[0]
-eclipse_time = result[1]
-
-date = Swisseph.swe_revjul(eclipse_time)
-puts "Next eclipse: #{date[0]}/#{date[1]}/#{date[2]}"
-```
+---
 
 ## Constants
 
-The gem provides constants for planets, flags, house systems, and sidereal modes:
+The gem provides constants for planets, calculation flags, and more:
 
 ```ruby
-# Planets
-Swisseph::SE_SUN, SE_MOON, SE_MERCURY, SE_VENUS, SE_MARS
-Swisseph::SE_JUPITER, SE_SATURN, SE_URANUS, SE_NEPTUNE, SE_PLUTO
-Swisseph::SE_MEAN_NODE, SE_TRUE_NODE, SE_CHIRON, etc.
-
-# Calculation flags
-Swisseph::SEFLG_MOSEPH    # Moshier ephemeris (no files needed)
-Swisseph::SEFLG_SWIEPH    # Swiss Ephemeris files
-Swisseph::SEFLG_SPEED     # Include speed in results
-Swisseph::SEFLG_TOPOCTR   # Topocentric positions
-Swisseph::SEFLG_SIDEREAL  # Sidereal zodiac
-Swisseph::SEFLG_EQUATORIAL # Equatorial coordinates
-
-# Sidereal modes
-Swisseph::SE_SIDM_LAHIRI, SE_SIDM_FAGAN_BRADLEY, SE_SIDM_RAMAN, etc.
+# Bodies
+Swisseph::SE_SUN, SE_MOON, SE_MERCURY, SE_VENUS, SE_MARS...
+# Flags
+Swisseph::SEFLG_MOSEPH, SEFLG_SWIEPH, SEFLG_SPEED, SEFLG_SIDEREAL...
+# Houses
+'P' (Placidus), 'K' (Koch), 'E' (Equal), 'C' (Campanus)...
 ```
+
+---
 
 ## Ephemeris Files
 
-The Moshier ephemeris (`SEFLG_MOSEPH`) is built-in and requires no additional files.
+The **Moshier ephemeris** (`SEFLG_MOSEPH`) is built-in and requires no files.
 
-For higher precision calculations, the Swiss Ephemeris data files are **automatically included** during gem installation. A minimal set of ephemeris files (planetary positions for current eras) is downloaded from the upstream repository.
-
-For additional ephemeris data (extended time ranges, asteroids, etc.), you can download files from [astro.com](https://www.astro.com/ftp/swisseph/ephe/) and configure the path:
+For high-precision calculations, a minimal set of Swiss Ephemeris data files is **automatically included** during installation. For extended time ranges or asteroid files, download them from [astro.com](https://www.astro.com/ftp/swisseph/ephe/) and configure:
 
 ```ruby
-Swisseph.swe_set_ephe_path('/path/to/ephemeris/files')
+Sweph.set_ephe_path('/path/to/ephemeris/files')
 ```
 
 ## Documentation
 
 - [Swiss Ephemeris Programmer's Documentation](https://www.astro.com/swisseph/swephprg.htm)
-- [Swiss Ephemeris Homepage](http://www.astro.com/swisseph/)
+- [Official Library Homepage](http://www.astro.com/swisseph/)
 
 ## License
 
-GPL-2.0-or-later
-
-Swisseph is free software distributed under the GNU General Public License. See [LICENSE](LICENSE) for details.
-
-The Swiss Ephemeris library is also distributed under GPL by Astrodienst AG.
+GPL-2.0-or-later. See [LICENSE](LICENSE) for details.
+Swiss Ephemeris library is (C) Astrodienst AG.

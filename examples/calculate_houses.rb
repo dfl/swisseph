@@ -1,4 +1,4 @@
-require 'swe4r'
+require 'swisseph'
 
 #############################
 # CONFIGURATION
@@ -20,10 +20,10 @@ altitude = 1468
 #############################
 
 # Get the Julian day number
-jd = Swe4r.swe_julday(year, month, day, hour)
+jd = Sweph.swe_julday(year, month, day, hour)
 
 # Get house details using the Placidus house system
-houses = Swe4r.swe_houses(jd, latitidue, longitude, 'P')
+houses = Sweph.swe_houses(jd, latitidue, longitude, 'P')
 
 # Print the house cusps
 (1..12).each do |i|
