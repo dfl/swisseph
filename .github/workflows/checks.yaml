@@ -40,22 +40,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Install CMake
-      - name: Install CMake (Ubuntu)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake
-          cmake --version
-
-      - name: Install CMake (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install cmake
-          cmake --version
+      - name: Cache Swiss Ephemeris Sources
+        uses: actions/cache@v4
+        with:
+          path: ext/swisseph/swisseph_src
+          key: swisseph-sources-${{ hashFiles('ext/swisseph/CMakeLists.txt') }}
 
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-      - run: rake install
-      - run: rake test
+
+      - name: Build and Install Gem
+        run: rake install
+
+      - name: Run Tests
+        run: rake test
