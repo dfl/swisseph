@@ -1,21 +1,21 @@
-# Swe4r
+# Swisseph
 
 **Swiss Ephemeris for Ruby**
 
-[![Gem Version](https://badge.fury.io/rb/swe4r.svg)](https://badge.fury.io/rb/swe4r)
+[![Gem Version](https://badge.fury.io/rb/swisseph.svg)](https://badge.fury.io/rb/swisseph)
 
 Native Ruby bindings for the [Swiss Ephemeris](http://www.astro.com/swisseph/) library, providing high-precision astronomical calculations for astrological applications.
 
 ## Installation
 
 ```bash
-gem install swe4r
+gem install swisseph
 ```
 
 Or add to your Gemfile:
 
 ```ruby
-gem 'swe4r'
+gem 'swisseph'
 ```
 
 ### Build Requirements
@@ -175,13 +175,13 @@ The build process will:
 ### Calculate Planetary Position
 
 ```ruby
-require 'swe4r'
+require 'swisseph'
 
 # Get Julian day for May 14, 2012 at 10:15
-jd = Swe4r.swe_julday(2012, 5, 14, 10.25)
+jd = Swisseph.swe_julday(2012, 5, 14, 10.25)
 
 # Calculate Sun position using Moshier ephemeris
-sun = Swe4r.swe_calc_ut(jd, Swe4r::SE_SUN, Swe4r::SEFLG_MOSEPH | Swe4r::SEFLG_SPEED)
+sun = Swisseph.swe_calc_ut(jd, Swisseph::SE_SUN, Swisseph::SEFLG_MOSEPH | Swisseph::SEFLG_SPEED)
 
 puts "Sun longitude: #{sun[0]}°"
 puts "Sun latitude: #{sun[1]}°"
@@ -192,14 +192,14 @@ puts "Speed (deg/day): #{sun[3]}"
 ### Calculate House Cusps
 
 ```ruby
-require 'swe4r'
+require 'swisseph'
 
-jd = Swe4r.swe_julday(2012, 5, 14, 10.25)
+jd = Swisseph.swe_julday(2012, 5, 14, 10.25)
 lat = 45.45
 lon = -112.183333
 
 # Calculate Placidus houses
-cusps, angles = Swe4r.swe_houses(jd, lat, lon, 'P')
+cusps, angles = Swisseph.swe_houses(jd, lat, lon, 'P')
 
 puts "Ascendant: #{angles[0]}°"
 puts "MC: #{angles[1]}°"
@@ -209,36 +209,36 @@ puts "MC: #{angles[1]}°"
 ### Sidereal Calculations
 
 ```ruby
-require 'swe4r'
+require 'swisseph'
 
-jd = Swe4r.swe_julday(2012, 5, 14, 10.25)
+jd = Swisseph.swe_julday(2012, 5, 14, 10.25)
 
 # Set Lahiri ayanamsa
-Swe4r.swe_set_sid_mode(Swe4r::SE_SIDM_LAHIRI, 0, 0)
+Swisseph.swe_set_sid_mode(Swisseph::SE_SIDM_LAHIRI, 0, 0)
 
 # Get ayanamsa
-ayanamsa = Swe4r.swe_get_ayanamsa_ut(jd)
+ayanamsa = Swisseph.swe_get_ayanamsa_ut(jd)
 puts "Ayanamsa: #{ayanamsa}°"
 
 # Calculate sidereal position
-sun = Swe4r.swe_calc_ut(jd, Swe4r::SE_SUN, Swe4r::SEFLG_MOSEPH | Swe4r::SEFLG_SIDEREAL)
+sun = Swisseph.swe_calc_ut(jd, Swisseph::SE_SUN, Swisseph::SEFLG_MOSEPH | Swisseph::SEFLG_SIDEREAL)
 puts "Sun (sidereal): #{sun[0]}°"
 ```
 
 ### Find Next Solar Eclipse
 
 ```ruby
-require 'swe4r'
+require 'swisseph'
 
-jd = Swe4r.swe_julday(2024, 1, 1, 0.0)
+jd = Swisseph.swe_julday(2024, 1, 1, 0.0)
 
 # Find next solar eclipse globally
-result = Swe4r.swe_sol_eclipse_when_glob(jd, Swe4r::SEFLG_MOSEPH, 0, 0)
+result = Swisseph.swe_sol_eclipse_when_glob(jd, Swisseph::SEFLG_MOSEPH, 0, 0)
 
 eclipse_type = result[0]
 eclipse_time = result[1]
 
-date = Swe4r.swe_revjul(eclipse_time)
+date = Swisseph.swe_revjul(eclipse_time)
 puts "Next eclipse: #{date[0]}/#{date[1]}/#{date[2]}"
 ```
 
@@ -248,20 +248,20 @@ The gem provides constants for planets, flags, house systems, and sidereal modes
 
 ```ruby
 # Planets
-Swe4r::SE_SUN, SE_MOON, SE_MERCURY, SE_VENUS, SE_MARS
-Swe4r::SE_JUPITER, SE_SATURN, SE_URANUS, SE_NEPTUNE, SE_PLUTO
-Swe4r::SE_MEAN_NODE, SE_TRUE_NODE, SE_CHIRON, etc.
+Swisseph::SE_SUN, SE_MOON, SE_MERCURY, SE_VENUS, SE_MARS
+Swisseph::SE_JUPITER, SE_SATURN, SE_URANUS, SE_NEPTUNE, SE_PLUTO
+Swisseph::SE_MEAN_NODE, SE_TRUE_NODE, SE_CHIRON, etc.
 
 # Calculation flags
-Swe4r::SEFLG_MOSEPH    # Moshier ephemeris (no files needed)
-Swe4r::SEFLG_SWIEPH    # Swiss Ephemeris files
-Swe4r::SEFLG_SPEED     # Include speed in results
-Swe4r::SEFLG_TOPOCTR   # Topocentric positions
-Swe4r::SEFLG_SIDEREAL  # Sidereal zodiac
-Swe4r::SEFLG_EQUATORIAL # Equatorial coordinates
+Swisseph::SEFLG_MOSEPH    # Moshier ephemeris (no files needed)
+Swisseph::SEFLG_SWIEPH    # Swiss Ephemeris files
+Swisseph::SEFLG_SPEED     # Include speed in results
+Swisseph::SEFLG_TOPOCTR   # Topocentric positions
+Swisseph::SEFLG_SIDEREAL  # Sidereal zodiac
+Swisseph::SEFLG_EQUATORIAL # Equatorial coordinates
 
 # Sidereal modes
-Swe4r::SE_SIDM_LAHIRI, SE_SIDM_FAGAN_BRADLEY, SE_SIDM_RAMAN, etc.
+Swisseph::SE_SIDM_LAHIRI, SE_SIDM_FAGAN_BRADLEY, SE_SIDM_RAMAN, etc.
 ```
 
 ## Ephemeris Files
@@ -273,7 +273,7 @@ For higher precision calculations, the Swiss Ephemeris data files are **automati
 For additional ephemeris data (extended time ranges, asteroids, etc.), you can download files from [astro.com](https://www.astro.com/ftp/swisseph/ephe/) and configure the path:
 
 ```ruby
-Swe4r.swe_set_ephe_path('/path/to/ephemeris/files')
+Swisseph.swe_set_ephe_path('/path/to/ephemeris/files')
 ```
 
 ## Documentation
@@ -285,6 +285,6 @@ Swe4r.swe_set_ephe_path('/path/to/ephemeris/files')
 
 GPL-2.0-or-later
 
-Swe4r is free software distributed under the GNU General Public License. See [LICENSE](LICENSE) for details.
+Swisseph is free software distributed under the GNU General Public License. See [LICENSE](LICENSE) for details.
 
 The Swiss Ephemeris library is also distributed under GPL by Astrodienst AG.

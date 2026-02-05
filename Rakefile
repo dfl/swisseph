@@ -2,7 +2,7 @@ require 'rake/testtask'
 
 desc 'Fetch Swiss Ephemeris files for testing'
 task :setup_test_files do
-  Dir.chdir('ext/swe4r') do
+  Dir.chdir('ext/swisseph') do
     unless File.exist?('.swisseph_fetched') && File.exist?('sweph.c')
       puts 'Fetching Swiss Ephemeris sources for testing...'
       system('cmake -S . -B cmake_build') or abort 'CMake configure failed'
@@ -24,13 +24,13 @@ task default: %i[install test]
 
 desc 'build and install locally'
 task :install do
-  version = run_cmd('gem which swe4r')
+  version = run_cmd('gem which swisseph')
   latest = run_cmd('ls -t *.gem | head -n 1')
   if version =~ /latest.chomp(".gem")/
     puts "already installed! #{latest}"
   else
-    run_cmd('gem uninstall swe4r') unless version =~ /ERROR/m
-    run_cmd('gem build swe4r.gemspec')
+    run_cmd('gem uninstall swisseph') unless version =~ /ERROR/m
+    run_cmd('gem build swisseph.gemspec')
     latest = run_cmd('ls -t *.gem | head -n 1')
     run_cmd("gem install --local ./#{latest}")
   end

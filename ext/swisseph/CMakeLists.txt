@@ -35,9 +35,6 @@ set(SWEPH_SOURCES
   swephlib.c
 )
 
-# Excluded files (utility programs, not part of library):
-# swephgen4.c, swemini.c, sweasp.c, swevents.c, swetest.c
-
 # List of header files to copy
 set(SWEPH_HEADERS
   swedate.h
@@ -54,7 +51,7 @@ set(SWEPH_HEADERS
   swevents.h
 )
 
-# Copy source files from fetched directory to ext/swe4r
+# Copy source files from fetched directory to ext/swisseph
 foreach(src_file ${SWEPH_SOURCES})
   configure_file(
     ${swisseph_SOURCE_DIR}/${src_file}

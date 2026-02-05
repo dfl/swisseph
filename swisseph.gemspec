@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
-  s.name              = 'swe4r'
+  s.name              = 'swisseph'
   s.version           = '1.3.0'
-  s.date              = '2026-01-03'
+  s.date              = '2026-02-05'
   s.summary           = 'Swiss Ephemeris for Ruby (astrology)'
   s.description       = 'Native bindings for the Swiss Ephemeris library (http://www.astro.com/swisseph/)'
-  s.homepage          = 'https://github.com/dfl/swe4r'
+  s.homepage          = 'https://github.com/dfl/swisseph'
   s.author            = 'David Lowenfels'
   s.email             = 'dfl@alum.mit.edu'
   s.license           = 'GPL-2.0-or-later'
@@ -12,15 +12,14 @@ Gem::Specification.new do |s|
 
   # Include only Ruby files and our wrapper C file + CMakeLists.txt
   # Swiss Ephemeris sources are fetched at build time via CMake
-  s.files             = Dir.glob('lib/**/*.{rb}') +
-                        ['ext/swe4r/extconf.rb',
-                         'ext/swe4r/swe4r.c',
-                         'ext/swe4r/CMakeLists.txt']
+  s.files             = Dir.glob('lib/**/*.rb') +
+                        ['ext/swisseph/extconf.rb',
+                         'ext/swisseph/swisseph.c',
+                         'ext/swisseph/CMakeLists.txt']
 
-  s.extensions        = ['ext/swe4r/extconf.rb']
+  s.extensions        = ['ext/swisseph/extconf.rb']
   s.required_ruby_version = '>= 2.6'
 
-  # minitest 5.27+ requires Ruby >= 3.2, so constrain for Ruby 2.7 compatibility
   s.add_development_dependency 'minitest', '>= 5.16', '< 5.27'
   s.add_development_dependency 'minitest-reporters', '~> 1.6'
   s.add_development_dependency 'minitest-rg', '~> 5.3'
@@ -34,7 +33,7 @@ Gem::Specification.new do |s|
 
   s.post_install_message = <<~MSG
 
-    swe4r requires Swiss Ephemeris sources, which are automatically
+    swisseph requires Swiss Ephemeris sources, which are automatically
     downloaded from GitHub during installation using CMake.
 
     If installation fails, ensure CMake 3.14+ is installed:

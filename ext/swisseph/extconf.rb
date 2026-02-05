@@ -60,8 +60,8 @@ $srcs = Dir.glob('*.c').select { |f|
 }
 
 # Verify we have the necessary sources
-if $srcs.empty? || !$srcs.include?('swe4r.c')
-  raise "Required Swiss Ephemeris source files not found. Build cannot proceed."
+if $srcs.empty? || !$srcs.include?('swisseph.c')
+  raise "Required Swiss Ephemeris source files (swisseph.c) not found. Build cannot proceed."
 end
 
-create_makefile("swe4r/swe4r")
+create_makefile("swisseph/swisseph")
