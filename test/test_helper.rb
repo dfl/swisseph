@@ -4,6 +4,7 @@ gem 'minitest'
 require 'minitest/autorun'
 
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift File.expand_path('../ext', __dir__)
 require 'swisseph'
 
 # Set ephemeris path for all tests

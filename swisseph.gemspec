@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name              = 'swisseph'
-  s.version           = '1.3.0'
+  s.version           = '1.3.1'
   s.date              = '2026-02-05'
   s.summary           = 'Swiss Ephemeris for Ruby (astrology)'
   s.description       = 'Native bindings for the Swiss Ephemeris library (http://www.astro.com/swisseph/)'

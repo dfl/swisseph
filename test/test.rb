@@ -30,6 +30,27 @@ class SwephTest < Minitest::Test
     assert_nil Sweph.swe_set_ephe_path('path')
   end
 
+  # Test shorthand aliases (without swe_ prefix)
+  def test_shorthand_aliases_exist
+    # Verify key shorthand aliases are defined
+    assert Sweph.respond_to?(:julday), "Sweph should respond to :julday"
+    assert Sweph.respond_to?(:calc_ut), "Sweph should respond to :calc_ut"
+    assert Sweph.respond_to?(:set_ephe_path), "Sweph should respond to :set_ephe_path"
+    assert Sweph.respond_to?(:set_sid_mode), "Sweph should respond to :set_sid_mode"
+    assert Sweph.respond_to?(:houses), "Sweph should respond to :houses"
+  end
+
+  def test_shorthand_aliases_work
+    # Verify shorthand aliases produce same results as full method names
+    assert_equal Sweph.swe_julday(1981, 8, 22, 11.35), Sweph.julday(1981, 8, 22, 11.35)
+    assert_equal Sweph.swe_revjul(@test_date_jd), Sweph.revjul(@test_date_jd)
+  end
+
+  def test_sweph_module_alias
+    # Verify Sweph is an alias for Swisseph
+    assert_equal Swisseph, Sweph
+  end
+
   def test_swe_julday
     assert_float_equal(2_444_838.972917, Sweph.swe_julday(1981, 8, 22, 11.35))
   end
