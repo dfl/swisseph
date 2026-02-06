@@ -56,7 +56,7 @@ end
 
 # Get all C source files, excluding utility programs
 $srcs = Dir.glob('*.c').select { |f|
-  !['swephgen4.c', 'swemini.c', 'sweasp.c', 'swevents.c', 'swetest.c'].include?(f)
+  !['swephgen4.c', 'swemini.c', 'sweasp.c', 'swevents.c', 'swetest.c', 'sweephe4.c'].include?(f)
 }
 
 # Verify we have the necessary sources
