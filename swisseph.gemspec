@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name              = 'swisseph'
-  s.version           = '1.3.1'
-  s.date              = '2026-02-05'
+  s.version           = '1.4.0'
+  s.date              = '2026-02-06'
   s.summary           = 'Swiss Ephemeris for Ruby (astrology)'
   s.description       = 'Native bindings for the Swiss Ephemeris library (http://www.astro.com/swisseph/)'
   s.homepage          = 'https://github.com/dfl/swisseph'
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
                          'ext/swisseph/CMakeLists.txt']
 
   s.extensions        = ['ext/swisseph/extconf.rb']
-  s.required_ruby_version = '>= 2.6'
+  s.required_ruby_version = '>= 3.0'
 
   s.add_development_dependency 'minitest', '>= 5.16', '< 5.27'
   s.add_development_dependency 'minitest-reporters', '~> 1.6'

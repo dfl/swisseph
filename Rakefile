@@ -22,6 +22,22 @@ task test: :setup_test_files
 desc 'Run tests'
 task default: %i[install test]
 
+namespace :swetest do
+  desc 'Build swetest command-line tool'
+  task build: :setup_test_files do
+    src_dir = 'ext/swisseph/swisseph_src'
+    unless File.exist?(src_dir)
+      abort "Swiss Ephemeris sources not found. Run 'rake setup_test_files' first."
+    end
+    Dir.chdir(src_dir) do
+      puts 'Building swetest...'
+      system('make swetest') or abort 'Build failed'
+      puts "\nSuccess! swetest built at: #{File.expand_path('swetest')}"
+      puts "Copy it to your PATH, e.g.: cp #{File.expand_path('swetest')} ~/bin/"
+    end
+  end
+end
+
 desc 'build and install locally'
 task :install do
   version = run_cmd('gem which swisseph')

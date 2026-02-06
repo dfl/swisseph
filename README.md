@@ -58,6 +58,19 @@ This gem requires **CMake 3.14 or later** to build from source. CMake is used to
 - **Ubuntu/Debian:** `sudo apt-get install cmake`
 - **Windows:** Download from [cmake.org](https://cmake.org/download/)
 
+### Building swetest CLI
+
+The Swiss Ephemeris includes `swetest`, a command-line tool for testing calculations. To build it:
+
+```bash
+rake swetest:build
+```
+
+Then copy the binary to your PATH:
+```bash
+cp ext/swisseph/swisseph_src/swetest ~/bin/
+```
+
 ---
 
 ## Quick Examples

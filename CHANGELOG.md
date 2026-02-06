@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2026-02-06
+
+### Added
+- `rake swetest:build` task to build the swetest command-line tool
+- Arch Linux support in CI workflow
+
+### Changed
+- Minimum Ruby version bumped to 3.0 (dropped 2.x support)
+- Simplified CI matrix to test Ruby 3.0 and 4.0 only
+
 ## [1.3.0] - 2026-01-03
 
 ### Fixed
