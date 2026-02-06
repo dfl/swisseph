@@ -55,7 +55,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm ruby ruby-bundler ruby-rake cmake gcc make
+          pacman -S --noconfirm ruby ruby-bundler ruby-rake cmake gcc make git
 
       - name: Cache Swiss Ephemeris Sources
         uses: actions/cache@v4
