@@ -67,6 +67,7 @@ jobs:
       - name: Build Extension
         run: |
           cd ext/swisseph
+          export CFLAGS="-Wno-error=format-security -Wno-error=incompatible-pointer-types"
           ruby extconf.rb
           make
 
