@@ -35,6 +35,16 @@ For even shorter code, you can use the `Sweph` alias:
 Sweph.julday(2024, 1, 1, 12.0)
 ```
 
+### Thread Safety
+The underlying Swiss Ephemeris C library keeps process-global state and a shared
+data-file descriptor, so it is **not thread-safe** -- two threads inside it at
+once can segfault the process. Every native call (and its shorthand alias) is
+serialized through one global re-entrant lock, `Swisseph::LOCK`, so the bindings
+are safe to call from multi-threaded hosts (e.g. a threaded Puma app with
+in-process background workers). A single-threaded caller never waits for the
+lock; when multiple threads call concurrently they are serialized (a brief wait,
+far cheaper than the crash it prevents).
+
 ---
 
 ## Installation

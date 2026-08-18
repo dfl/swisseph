@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.1] - 2026-08-17
+
+### Fixed
+- Serialize every native call through a global re-entrant lock (`Swisseph::LOCK`). The Swiss Ephemeris C library is not thread-safe -- two threads inside it at once could segfault the process -- so this makes the bindings safe to call from multi-threaded hosts (e.g. a threaded Puma app with in-process background workers). A single-threaded caller never waits for the lock; concurrent callers are serialized (a brief wait, far cheaper than the crash it prevents).
+
 ## [1.4.0] - 2026-02-06
 
 ### Added
